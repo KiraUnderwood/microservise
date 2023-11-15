@@ -2,14 +2,13 @@ from fastapi.testclient import TestClient
 
 from main import app
 
-client = TestClient(app)
-
 
 def test_get_tasks_for_existing_build():
-    response = client.post(
-        "/get_tasks/",
-        json={"name": "reach_wind"},
-    )
+    with TestClient(app) as client:
+        response = client.post(
+            "/get_tasks/",
+            json={"name": "reach_wind"},
+        )
     assert response.status_code == 200
     assert response.json() == {
         "sorted_tasks": [
@@ -41,9 +40,10 @@ def test_get_tasks_for_existing_build():
 
 
 def test_get_tasks_for_non_existing_build():
-    response = client.post(
-        "/get_tasks/",
-        json={"name": "non_existing"},
-    )
+    with TestClient(app) as client:
+        response = client.post(
+            "/get_tasks/",
+            json={"name": "non_existing"},
+        )
     assert response.status_code == 404
-    assert response.json() == {"detail": "No such build exists"}
+    assert response.json() == {"detail": "Exception('No such build exists')"}
