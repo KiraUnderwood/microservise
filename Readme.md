@@ -34,4 +34,4 @@ Unittests can be run from the poetry environment with the command:
  > poetry run python -m pytest
  >
 
-Use Postman of other http client to run API.
+Use Postman or other http client to run and see API in action.
